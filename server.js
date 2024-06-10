@@ -1,14 +1,20 @@
 const express = require('express');
 const { exec } = require('child_process');
+var bodyParser = require('body-parser')
 const app = express();
 const port = 3097
 
-app.post('/move', (req, res) => {
-    const setX = req.params.x;
-    const setY = req.params.y;
-    console.log("post data ",setX,setY);
-    if(setX>0){
-        exec(`uvcdynctrl -d /dev/video0 -s 'Pan (relative)' ${setX}`, (err, stdout, stderr) => {
+// parse application/x-www-form-urlencoded
+// app.use(bodyParser.urlencoded({ extended: false }))
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
+// parse application/json
+// app.use(bodyParser.json())
+
+app.post('/move',urlencodedParser, (req, res) => {
+    var payload = req.body;
+    console.log("post data ",payload.x,payload.y);
+    if(payload.x>0){
+        exec(`uvcdynctrl -d /dev/video0 -s 'Pan (relative)' ${payload.x}`, (err, stdout, stderr) => {
             if (err) {
               // node couldn't execute the command
               return;
@@ -19,8 +25,8 @@ app.post('/move', (req, res) => {
             console.log(`stderr: ${stderr}`);
           });
     }
-    if(setY>0){
-        exec(`uvcdynctrl -d /dev/video0 -s 'Tilt (relative)' ${setY}`, (err, stdout, stderr) => {
+    if(payload.y>0){
+        exec(`uvcdynctrl -d /dev/video0 -s 'Tilt (relative)' ${payload.y}`, (err, stdout, stderr) => {
             if (err) {
               // node couldn't execute the command
               return;
@@ -31,7 +37,7 @@ app.post('/move', (req, res) => {
             console.log(`stderr: ${stderr}`);
           });
     }
-    res.send(`moving X ${setX} && Y ${setY}`);
+    res.send(`moving X ${payload.x} && Y ${payload.y}`);
 })
 
 app.listen(port, () => {
