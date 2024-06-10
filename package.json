@@ -1,0 +1,23 @@
+{
+  "name": "petcam",
+  "version": "1.0.0",
+  "description": "",
+  "main": "joy.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/finkegabriel/petcam.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/finkegabriel/petcam/issues"
+  },
+  "homepage": "https://github.com/finkegabriel/petcam#readme",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
