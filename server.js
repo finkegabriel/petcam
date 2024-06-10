@@ -3,11 +3,15 @@ const { exec } = require('child_process');
 var bodyParser = require('body-parser')
 const app = express();
 const port = 3097
+// create application/json parser
+var jsonParser = bodyParser.json()
+ 
+// create application/x-www-form-urlencoded parser
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
-var urlencodedParser = bodyParser.json();
-
-app.post('/move',urlencodedParser, (req, res) => {
-    var payload = JSON.parse(req.body);
+app.post('/move',jsonParser, (req, res) => {
+    var payload = req.body;
+    console.log(req.body)
     console.log("post data ",payload.x,payload.y);
     if(payload.x<0){
         exec(`uvcdynctrl -d /dev/video0 -s 'Pan (relative)' -- ${(payload.x)}`, (err, stdout, stderr) => {
