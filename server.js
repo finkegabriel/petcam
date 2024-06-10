@@ -10,7 +10,7 @@ app.post('/move',urlencodedParser, (req, res) => {
     var payload = req.body;
     console.log("post data ",payload.x,payload.y);
     if(payload.x<0){
-        exec(`uvcdynctrl -d /dev/video0 -s 'Pan (relative)' -- ${Math.abs(payload.x)}`, (err, stdout, stderr) => {
+        exec(`uvcdynctrl -d /dev/video0 -s 'Pan (relative)' -- ${(payload.x)}`, (err, stdout, stderr) => {
             if (err) {
               // node couldn't execute the command
               return;
@@ -20,7 +20,7 @@ app.post('/move',urlencodedParser, (req, res) => {
             console.log(`stdout: ${stdout}`);
             console.log(`stderr: ${stderr}`);
           });
-          
+
     }
     if(payload.x>0){
         exec(`uvcdynctrl -d /dev/video0 -s 'Pan (relative)' ${payload.x}`, (err, stdout, stderr) => {
