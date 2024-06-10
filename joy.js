@@ -398,6 +398,7 @@
       */
      this.GetX = function ()
      {
+        console.log(`Axis X ${(100*((movedX - centerX)/maxMoveStick)).toFixed()}`)
          return (100*((movedX - centerX)/maxMoveStick)).toFixed();
      };
  
@@ -407,6 +408,7 @@
       */
      this.GetY = function ()
      {
+        console.log(`Axis Y ${((100*((movedY - centerY)/maxMoveStick))*-1).toFixed()}`);
          return ((100*((movedY - centerY)/maxMoveStick))*-1).toFixed();
      };
  
