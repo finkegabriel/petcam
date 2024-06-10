@@ -76,6 +76,17 @@ body
 		<script src="joy.js"></script>
 	</head>
 	<body>
+		<div style="margin: auto;
+		width: 26%;
+		padding: 10px;">
+			<iframe  onload='javascript:(function(o){o.style.height=o.contentWindow.document.body.scrollHeight+"px";}(this));' style="height:200px;width:100%;border:none;overflow:hidden;" src="http://lab.local/zm/cgi-bin/nph-zms?scale=15&mode=jpeg&maxfps=10&monitor=1"></iframe>
+				<div id="joy1Div" style="width:200px;height:200px;margin:50px"></div>
+				Posizione X:<input id="joy1PosizioneX" type="text" /><br />
+				Posizione Y:<input id="joy1PosizioneY" type="text" /><br />
+				Direzione:<input id="joy1Direzione" type="text" /><br />
+				X :<input id="joy1X" type="text" /></br>
+				Y :<input id="joy1Y" type="text" />
+		</div>
 		<!-- Example of FIXED or ABSOLUTE position -->
 		<div id="joy3Div" style="width:200px;height:200px;margin:50px;position:fixed;bottom:30px;left:500px;"></div>
 		<!-- <div style="position:fixed;bottom:125px;left:750px;">
@@ -87,14 +98,7 @@ body
 		</div> -->
 		<!-- Example of two JoyStick integrated in the page structure -->
 		<!-- <div class="row"> -->
-				<div class="columnLateral">
-					<div id="joy1Div" style="width:200px;height:200px;margin:50px"></div>
-					Posizione X:<input id="joy1PosizioneX" type="text" /><br />
-					Posizione Y:<input id="joy1PosizioneY" type="text" /><br />
-					Direzione:<input id="joy1Direzione" type="text" /><br />
-					X :<input id="joy1X" type="text" /></br>
-					Y :<input id="joy1Y" type="text" />
-				</div>
+				
 		
 			<!-- <div class="columnCetral">
 				<h2>JoyStick</h2>
@@ -133,6 +137,12 @@ var Joy1 = new JoyStick('joy1Div', {}, function(stickData) {
     joy1Y.value = stickData.y;
 	console.log(`Axis X ${joy1X.value}`);
 	console.log(`Axis Y ${joy1Y.value}`);
+	const json_type = {x: (Number(joy1X.value*10)),y:joy1Y.value}
+	fetch("http://lab.local:3097/move",{
+		method:"POST",
+		mode:'no-cors',
+		body:JSON.stringify(json_type)
+	})
 });
 
 // Create JoyStick object into the DIV 'joy2Div'
