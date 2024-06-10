@@ -5,7 +5,7 @@ const app = express();
 const port = 3097
 // create application/json parser
 var jsonParser = bodyParser.json()
-app.use(express.json());
+app.use(bodyParser.json());
 
 // create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
