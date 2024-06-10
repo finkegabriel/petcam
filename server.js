@@ -4,15 +4,24 @@ var bodyParser = require('body-parser')
 const app = express();
 const port = 3097
 
-// parse application/x-www-form-urlencoded
-// app.use(bodyParser.urlencoded({ extended: false }))
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
-// parse application/json
-// app.use(bodyParser.json())
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 app.post('/move',urlencodedParser, (req, res) => {
     var payload = req.body;
     console.log("post data ",payload.x,payload.y);
+    if(payload.x<0){
+        exec(`uvcdynctrl -d /dev/video0 -s 'Pan (relative)' -- ${Math.abs(payload.x)}`, (err, stdout, stderr) => {
+            if (err) {
+              // node couldn't execute the command
+              return;
+            }
+          
+            // the *entire* stdout and stderr (buffered)
+            console.log(`stdout: ${stdout}`);
+            console.log(`stderr: ${stderr}`);
+          });
+          
+    }
     if(payload.x>0){
         exec(`uvcdynctrl -d /dev/video0 -s 'Pan (relative)' ${payload.x}`, (err, stdout, stderr) => {
             if (err) {
@@ -24,6 +33,7 @@ app.post('/move',urlencodedParser, (req, res) => {
             console.log(`stdout: ${stdout}`);
             console.log(`stderr: ${stderr}`);
           });
+
     }
     if(payload.y>0){
         exec(`uvcdynctrl -d /dev/video0 -s 'Tilt (relative)' ${payload.y}`, (err, stdout, stderr) => {
