@@ -7,7 +7,7 @@ const port = 3097
 var urlencodedParser = bodyParser.json();
 
 app.post('/move',urlencodedParser, (req, res) => {
-    var payload = req.body;
+    var payload = JSON.parse(req.body);
     console.log("post data ",payload.x,payload.y);
     if(payload.x<0){
         exec(`uvcdynctrl -d /dev/video0 -s 'Pan (relative)' -- ${(payload.x)}`, (err, stdout, stderr) => {
