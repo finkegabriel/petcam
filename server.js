@@ -4,7 +4,7 @@ var bodyParser = require('body-parser')
 const app = express();
 const port = 3097
 
-var urlencodedParser = bodyParser.json({ type: 'application/*+json' });
+var urlencodedParser = bodyParser.json();
 
 app.post('/move',urlencodedParser, (req, res) => {
     var payload = req.body;
